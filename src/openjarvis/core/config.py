@@ -1522,6 +1522,27 @@ class DigestConfig:
     )
 
 
+@dataclass(slots=True)
+class VoiceAccountConfig:
+    credentials_path: str = ""
+    label: str = ""  # e.g. "work email", "personal email"
+
+
+@dataclass(slots=True)
+class VoiceAssistantConfig:
+    wake_word_model: str = ""  # path to .onnx model, empty = not trained yet
+    stt_model: str = "large-v3"
+    tts_backend: str = "kokoro"
+    mic_device: str = ""  # empty = system default
+    detection_threshold: float = 0.5
+    silence_duration_s: float = 1.5
+    confirmation_timeout_s: float = 15.0
+    cloud_model: str = "claude-sonnet-4-6"
+    local_model: str = "qwen2.5:14b"
+    memory_path: str = ""  # empty = ~/.openjarvis/voice_memory.json
+    gmail_accounts: list = field(default_factory=list)
+
+
 @dataclass
 class JarvisConfig:
     """Top-level configuration for OpenJarvis."""
@@ -1554,6 +1575,7 @@ class JarvisConfig:
     compression: CompressionConfig = field(default_factory=CompressionConfig)
     skills: SkillsConfig = field(default_factory=SkillsConfig)
     digest: DigestConfig = field(default_factory=DigestConfig)
+    voice_assistant: VoiceAssistantConfig = field(default_factory=VoiceAssistantConfig)
     proactive: ProactiveConfig = field(default_factory=ProactiveConfig)
     mining: Optional["MiningConfig"] = None
 
@@ -1811,6 +1833,7 @@ def load_config(path: Optional[Path] = None) -> JarvisConfig:
             "optimize",
             "agent_manager",
             "digest",
+            "voice_assistant",
             "proactive",
             "memory_files",
             "system_prompt",
@@ -2158,6 +2181,8 @@ __all__ = [
     "ToolsConfig",
     "TracesConfig",
     "VLLMEngineConfig",
+    "VoiceAccountConfig",
+    "VoiceAssistantConfig",
     "WebChatChannelConfig",
     "WebhookChannelConfig",
     "WhatsAppBaileysChannelConfig",

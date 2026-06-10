@@ -123,6 +123,15 @@ sandbox-docker = ["docker>=7.0"]
 dashboard = ["textual>=0.80"]
 speech = ["faster-whisper>=1.0"]
 speech-deepgram = ["deepgram-sdk>=3.0"]
+speech-kokoro = ["kokoro-onnx>=0.4.0"]
+voice = [
+    "openwakeword>=0.6.0",
+    "sounddevice>=0.4.6",
+    "numpy>=1.24",
+    "soundfile>=0.12",
+    "google-auth-oauthlib>=1.0",
+    "google-auth-httplib2>=0.2",
+]
 eval-wandb = ["wandb>=0.17"]
 eval-sheets = ["gspread>=6.0", "google-auth>=2.0"]
 mining-pearl-cpu = [
