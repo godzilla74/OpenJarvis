@@ -7,7 +7,7 @@ A multi-hop research agent that searches across your indexed documents, cross-re
 ### 1. Install and initialize
 
 ```bash
-git clone https://github.com/open-jarvis/OpenJarvis.git
+git clone https://github.com/godzilla74/OpenJarvis.git
 cd OpenJarvis
 uv sync --extra dev
 jarvis init --preset deep-research

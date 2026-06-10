@@ -5,7 +5,7 @@
 
   <p>
     <a href="https://scalingintelligence.stanford.edu/blogs/openjarvis/"><img src="https://img.shields.io/badge/project-OpenJarvis-blue" alt="Project"></a>
-    <a href="https://open-jarvis.github.io/OpenJarvis/"><img src="https://img.shields.io/badge/docs-mkdocs-blue" alt="Docs"></a>
+    <a href="https://godzilla74.github.io/OpenJarvis/"><img src="https://img.shields.io/badge/docs-mkdocs-blue" alt="Docs"></a>
     <img src="https://img.shields.io/badge/python-%3E%3D3.10-blue" alt="Python">
     <img src="https://img.shields.io/badge/license-Apache%202.0-green" alt="License">
     <a href="https://discord.gg/CMVBmDQ5Fj"><img src="https://img.shields.io/badge/discord-join-7289da?logo=discord&logoColor=white" alt="Discord"></a>
@@ -21,15 +21,15 @@
 
 ---
 
-> **[Documentation](https://open-jarvis.github.io/OpenJarvis/)**
+> **[Documentation](https://godzilla74.github.io/OpenJarvis/)**
 >
 > **[Project Site](https://scalingintelligence.stanford.edu/blogs/openjarvis/)**
 >
 > **[Paper](https://arxiv.org/abs/2605.17172)**
 >
-> **[Leaderboard](https://open-jarvis.github.io/OpenJarvis/leaderboard/)**
+> **[Leaderboard](https://godzilla74.github.io/OpenJarvis/leaderboard/)**
 >
-> **[Roadmap](https://open-jarvis.github.io/OpenJarvis/development/roadmap/)**
+> **[Roadmap](https://godzilla74.github.io/OpenJarvis/development/roadmap/)**
 
 ## Why OpenJarvis?
 
@@ -43,13 +43,13 @@ Pick your platform and run one command. Each installer handles [uv](https://docs
 
 | Platform | One-liner |
 |---|---|
-| **macOS · Linux · WSL2** | `curl -fsSL https://open-jarvis.github.io/OpenJarvis/install.sh \| bash` |
-| **Native Windows** | `irm https://open-jarvis.github.io/OpenJarvis/install.ps1 \| iex` |
-| **Desktop GUI** | Download `.exe` / `.dmg` / `.deb` / `.rpm` / `.AppImage` from the [latest release](https://github.com/open-jarvis/OpenJarvis/releases) |
+| **macOS · Linux · WSL2** | `curl -fsSL https://godzilla74.github.io/OpenJarvis/install.sh \| bash` |
+| **Native Windows** | `irm https://godzilla74.github.io/OpenJarvis/install.ps1 \| iex` |
+| **Desktop GUI** | Download `.exe` / `.dmg` / `.deb` / `.rpm` / `.AppImage` from the [latest release](https://github.com/godzilla74/OpenJarvis/releases) |
 
 Then `jarvis` to start. The Rust extension and larger models continue downloading in the background; `jarvis doctor` shows status.
 
-Platform-specific notes (WSL2 setup, native-Windows scheduled-task service, desktop prerequisites, manual / contributor install): see the [installation docs](https://open-jarvis.github.io/OpenJarvis/getting-started/install/).
+Platform-specific notes (WSL2 setup, native-Windows scheduled-task service, desktop prerequisites, manual / contributor install): see the [installation docs](https://godzilla74.github.io/OpenJarvis/getting-started/install/).
 
 ## Quick Start
 
@@ -76,7 +76,7 @@ jarvis connect gdrive          # one OAuth covers Gmail / Calendar / Tasks
 jarvis digest --fresh          # generate and play your first briefing
 ```
 
-Per-preset deep dives: [morning digest](https://open-jarvis.github.io/OpenJarvis/user-guide/morning-digest/) · [deep research](https://open-jarvis.github.io/OpenJarvis/user-guide/deep-research/) · [code assistant](https://open-jarvis.github.io/OpenJarvis/user-guide/code-assistant/) · [scheduled monitor](https://open-jarvis.github.io/OpenJarvis/user-guide/scheduled-monitor/) · [chat simple](https://open-jarvis.github.io/OpenJarvis/user-guide/chat-simple/) · or the full [quickstart guide](https://open-jarvis.github.io/OpenJarvis/getting-started/quickstart/).
+Per-preset deep dives: [morning digest](https://godzilla74.github.io/OpenJarvis/user-guide/morning-digest/) · [deep research](https://godzilla74.github.io/OpenJarvis/user-guide/deep-research/) · [code assistant](https://godzilla74.github.io/OpenJarvis/user-guide/code-assistant/) · [scheduled monitor](https://godzilla74.github.io/OpenJarvis/user-guide/scheduled-monitor/) · [chat simple](https://godzilla74.github.io/OpenJarvis/user-guide/chat-simple/) · or the full [quickstart guide](https://godzilla74.github.io/OpenJarvis/getting-started/quickstart/).
 
 ### Skills
 
@@ -99,7 +99,7 @@ jarvis bench skills --max-samples 5 --seeds 42
 
 Import from [Hermes Agent](https://github.com/NousResearch/hermes-agent) (~150 skills), [OpenClaw](https://github.com/openclaw/skills) (~13,700 community skills), or any GitHub repo. Skills follow the [agentskills.io](https://agentskills.io/specification) open standard.
 
-See the [Skills User Guide](https://open-jarvis.github.io/OpenJarvis/user-guide/skills/) and [Skills Tutorial](https://open-jarvis.github.io/OpenJarvis/tutorials/skills-workflow/) for details.
+See the [Skills User Guide](https://godzilla74.github.io/OpenJarvis/user-guide/skills/) and [Skills Tutorial](https://godzilla74.github.io/OpenJarvis/tutorials/skills-workflow/) for details.
 
 ### Built-in Agents
 
@@ -116,16 +116,16 @@ OpenJarvis ships with eight built-in agents across three execution modes (on-dem
 | `native_openhands` | On-demand | CodeAct — generates and executes Python code |
 | `simple` | On-demand | Single-turn chat, no tools |
 
-See the [User Guide](https://open-jarvis.github.io/OpenJarvis/user-guide/morning-digest/) and [Tutorials](https://open-jarvis.github.io/OpenJarvis/tutorials/) for detailed setup instructions.
+See the [User Guide](https://godzilla74.github.io/OpenJarvis/user-guide/morning-digest/) and [Tutorials](https://godzilla74.github.io/OpenJarvis/tutorials/) for detailed setup instructions.
 
-Full documentation — including Docker deployment, cloud engines, development setup, and tutorials — at **[open-jarvis.github.io/OpenJarvis](https://open-jarvis.github.io/OpenJarvis/)**.
+Full documentation — including Docker deployment, cloud engines, development setup, and tutorials — at **[godzilla74.github.io/OpenJarvis](https://godzilla74.github.io/OpenJarvis/)**.
 
 ## Community
 
-- **GitHub:** [github.com/open-jarvis/OpenJarvis](https://github.com/open-jarvis/OpenJarvis)
+- **GitHub:** [github.com/godzilla74/OpenJarvis](https://github.com/godzilla74/OpenJarvis)
 - **Discord:** [discord.gg/CMVBmDQ5Fj](https://discord.gg/CMVBmDQ5Fj)
 - **X / Twitter:** [@OpenJarvisAI](https://x.com/OpenJarvisAI)
-- **Docs:** [open-jarvis.github.io/OpenJarvis](https://open-jarvis.github.io/OpenJarvis/)
+- **Docs:** [godzilla74.github.io/OpenJarvis](https://godzilla74.github.io/OpenJarvis/)
 
 ## Contributing
 
@@ -134,14 +134,14 @@ We welcome contributions! See the [Contributing Guide](CONTRIBUTING.md) for ince
 Quick start for contributors:
 
 ```bash
-git clone https://github.com/open-jarvis/OpenJarvis.git
+git clone https://github.com/godzilla74/OpenJarvis.git
 cd OpenJarvis
 uv sync --extra dev
 uv run pre-commit install
 uv run pytest tests/ -v
 ```
 
-Browse the [Roadmap](https://open-jarvis.github.io/OpenJarvis/development/roadmap/) for areas where help is needed. Comment **"take"** on any issue to get auto-assigned.
+Browse the [Roadmap](https://godzilla74.github.io/OpenJarvis/development/roadmap/) for areas where help is needed. Comment **"take"** on any issue to get auto-assigned.
 
 ## About
 

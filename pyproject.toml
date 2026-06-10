@@ -145,10 +145,10 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/open-jarvis/OpenJarvis"
-Documentation = "https://open-jarvis.github.io/OpenJarvis/"
-Repository = "https://github.com/open-jarvis/OpenJarvis"
-Issues = "https://github.com/open-jarvis/OpenJarvis/issues"
+Homepage = "https://github.com/godzilla74/OpenJarvis"
+Documentation = "https://godzilla74.github.io/OpenJarvis/"
+Repository = "https://github.com/godzilla74/OpenJarvis"
+Issues = "https://github.com/godzilla74/OpenJarvis/issues"
 
 [project.scripts]
 jarvis = "openjarvis.cli:main"

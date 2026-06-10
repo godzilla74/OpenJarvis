@@ -544,7 +544,7 @@ export function SavingsDashboard({ apiUrl }: { apiUrl: string }) {
             {optInEnabled ? `Sharing as "${displayName}"` : 'Share Your Savings'}
           </button>
           <a
-            href="https://open-jarvis.github.io/OpenJarvis/leaderboard"
+            href="https://godzilla74.github.io/OpenJarvis/leaderboard"
             target="_blank"
             rel="noopener noreferrer"
             style={{ fontSize: 12, color: colors.accent, textDecoration: 'none' }}

@@ -136,7 +136,7 @@ export const SOURCE_CATALOG: ConnectorMeta[] = [
       },
       {
         label: '(Optional) Set the app icon: in the left sidebar click "Basic Information" → scroll to "Display Information" → upload the OpenJarvis logo',
-        url: 'https://github.com/open-jarvis/OpenJarvis/blob/main/assets/openjarvis-slack-icon.jpg',
+        url: 'https://github.com/godzilla74/OpenJarvis/blob/main/assets/openjarvis-slack-icon.jpg',
         urlLabel: 'Download icon',
       },
     ],
