@@ -147,18 +147,35 @@ def _run_google_oauth(*, scopes: list[str], label: str) -> str | None:
         return None
 
 
+def _resolve_model_path() -> Path:
+    """Return the wake word model: custom trained → pre-built bundled."""
+    if _MODEL_PATH.exists():
+        return _MODEL_PATH
+    try:
+        import openwakeword as oww
+        for p in oww.get_pretrained_model_paths():
+            if "hey_jarvis" in p:
+                return Path(p)
+    except Exception:
+        pass
+    return _MODEL_PATH
+
+
 @voice.command("start")
 @click.option("--device", default="", help="Microphone device name fragment (e.g. 'Logitech')")
 @click.option("--stt-model", default="large-v3", show_default=True, help="Faster-Whisper model size")
 @click.option("--local-model", default="qwen2.5:14b", show_default=True, help="Local Ollama model")
 def voice_start(device: str, stt_model: str, local_model: str) -> None:
     """Start the always-on voice assistant."""
-    if not _MODEL_PATH.exists():
+    model_path = _resolve_model_path()
+    if not model_path.exists():
         console.print(
             "[red]Wake word model not found.[/red] "
             "Run [bold]jarvis voice train[/bold] first."
         )
         sys.exit(1)
+    if model_path != _MODEL_PATH:
+        console.print(f"[dim]Using pre-built wake word model: {model_path.name}[/dim]")
 
     from openjarvis.voice.capture import find_device_index
     from openjarvis.engine.ollama import OllamaEngine
@@ -178,7 +195,7 @@ def voice_start(device: str, stt_model: str, local_model: str) -> None:
     from openjarvis.voice.loop import VoiceLoop
 
     loop = VoiceLoop(
-        wake_word_model=_MODEL_PATH,
+        wake_word_model=model_path,
         stt_model=stt_model,
         mic_device=mic_device_idx,
         local_engine=local_engine,

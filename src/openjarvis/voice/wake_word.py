@@ -11,8 +11,25 @@ import sounddevice as sd
 
 from openjarvis.voice.capture import BLOCK_SIZE, SAMPLE_RATE
 
-_DEFAULT_MODEL = Path.home() / ".openjarvis" / "models" / "hey_jarvis.onnx"
 _DETECTION_THRESHOLD = 0.5
+
+
+def _find_model(model_path: Optional[Path] = None) -> Path:
+    """Return the wake word model path: custom trained → pre-built bundled."""
+    if model_path is not None:
+        return model_path
+    custom = Path.home() / ".openjarvis" / "models" / "hey_jarvis.onnx"
+    if custom.exists():
+        return custom
+    # Fall back to the pre-built model bundled with openwakeword
+    try:
+        import openwakeword as oww
+        for p in oww.get_pretrained_model_paths():
+            if "hey_jarvis" in p:
+                return Path(p)
+    except Exception:
+        pass
+    return custom  # let caller fail with a clear missing-file error
 
 
 class WakeWordDetector:
@@ -38,7 +55,7 @@ class WakeWordDetector:
         device: Optional[int] = None,
     ) -> None:
         self._on_wake = on_wake
-        self._model_path = model_path or _DEFAULT_MODEL
+        self._model_path = _find_model(model_path)
         self._threshold = threshold
         self._device = device
         self._stop_event = threading.Event()
@@ -47,9 +64,10 @@ class WakeWordDetector:
 
     def _load_model(self) -> None:
         from openwakeword.model import Model  # type: ignore[import]
+        framework = "tflite" if str(self._model_path).endswith(".tflite") else "onnx"
         self._model = Model(
             wakeword_models=[str(self._model_path)],
-            inference_framework="onnx",
+            inference_framework=framework,
         )
 
     def _run(self) -> None:
@@ -73,8 +91,11 @@ class WakeWordDetector:
                 except queue.Empty:
                     continue
                 prediction = self._model.predict(chunk)
-                # Model key is the filename stem of the .onnx model
-                score = prediction.get("hey_jarvis", 0.0)
+                # Key is the model filename stem; check both custom and pre-built names
+                score = max(
+                    v for k, v in prediction.items()
+                    if "hey_jarvis" in k
+                ) if any("hey_jarvis" in k for k in prediction) else 0.0
                 if score >= self._threshold:
                     self._model.reset()  # clear buffer to avoid double-trigger
                     self._on_wake()
