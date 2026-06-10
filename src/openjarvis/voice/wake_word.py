@@ -24,9 +24,11 @@ def _find_model(model_path: Optional[Path] = None) -> Path:
     # Fall back to the pre-built model bundled with openwakeword — prefer .onnx
     try:
         import openwakeword as oww
-        candidates = [Path(p) for p in oww.get_pretrained_model_paths() if "hey_jarvis" in p]
-        onnx = next((p for p in candidates if p.suffix == ".onnx" and p.exists()), None)
-        tflite = next((p for p in candidates if p.suffix == ".tflite" and p.exists()), None)
+        tflite_candidates = [Path(p) for p in oww.get_pretrained_model_paths() if "hey_jarvis" in p]
+        # get_pretrained_model_paths() only returns .tflite; also check ONNX siblings
+        onnx = next((p.with_suffix(".onnx") for p in tflite_candidates
+                     if p.with_suffix(".onnx").exists()), None)
+        tflite = next((p for p in tflite_candidates if p.exists()), None)
         if onnx:
             return onnx
         if tflite:
