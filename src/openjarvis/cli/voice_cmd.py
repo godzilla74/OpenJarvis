@@ -81,22 +81,44 @@ def _setup_gmail() -> None:
 
 def _setup_calendar() -> None:
     console.print("\n[bold]Google Calendar[/bold]")
-    console.print("Opening browser for OAuth...")
-    _run_google_oauth(
-        scopes=["https://www.googleapis.com/auth/calendar"],
-        label="gcalendar",
-    )
-    console.print("[green]  ✓ Calendar connected[/green]")
+    console.print("You can connect multiple Calendar accounts. Press Enter with no input when done.\n")
+    accounts = []
+    idx = 1
+    while True:
+        label = click.prompt(f"Account {idx} label (e.g. 'work', 'personal')", default="")
+        if not label:
+            break
+        console.print(f"Opening browser for OAuth — sign in to your {label} Google account...")
+        token = _run_google_oauth(
+            scopes=["https://www.googleapis.com/auth/calendar"],
+            label=f"gcalendar_{label.replace(' ', '_')}",
+        )
+        if token:
+            accounts.append({"label": label, "token_path": token})
+            console.print(f"[green]  ✓ {label} Calendar connected[/green]")
+        idx += 1
+    console.print(f"Connected {len(accounts)} Calendar account(s).")
 
 
 def _setup_tasks() -> None:
     console.print("\n[bold]Google Tasks[/bold]")
-    console.print("Opening browser for OAuth...")
-    _run_google_oauth(
-        scopes=["https://www.googleapis.com/auth/tasks"],
-        label="gtasks",
-    )
-    console.print("[green]  ✓ Tasks connected[/green]")
+    console.print("You can connect multiple Tasks accounts. Press Enter with no input when done.\n")
+    accounts = []
+    idx = 1
+    while True:
+        label = click.prompt(f"Account {idx} label (e.g. 'work', 'personal')", default="")
+        if not label:
+            break
+        console.print(f"Opening browser for OAuth — sign in to your {label} Google account...")
+        token = _run_google_oauth(
+            scopes=["https://www.googleapis.com/auth/tasks"],
+            label=f"gtasks_{label.replace(' ', '_')}",
+        )
+        if token:
+            accounts.append({"label": label, "token_path": token})
+            console.print(f"[green]  ✓ {label} Tasks connected[/green]")
+        idx += 1
+    console.print(f"Connected {len(accounts)} Tasks account(s).")
 
 
 def _run_google_oauth(*, scopes: list[str], label: str) -> str | None:
@@ -164,18 +186,18 @@ def voice_start(device: str, stt_model: str, local_model: str) -> None:
         cloud_engine=cloud_engine,
         cloud_model=cfg.voice_assistant.cloud_model,
         gmail_tokens=tokens["gmail"],
-        calendar_token=tokens.get("gcalendar", ""),
-        tasks_token=tokens.get("gtasks", ""),
+        calendar_tokens=tokens["gcalendar"],
+        tasks_tokens=tokens["gtasks"],
     )
     loop.run()
 
 
 def _load_tokens(cfg) -> dict:
-    """Load OAuth tokens from disk. Returns {service: token_string} dict."""
+    """Load OAuth tokens from disk. Returns {service: {label: token}} dict."""
     import json
     from openjarvis.core.config import DEFAULT_CONFIG_DIR
 
-    tokens: dict = {"gmail": {}}
+    tokens: dict = {"gmail": {}, "gcalendar": {}, "gtasks": {}}
 
     for token_file in DEFAULT_CONFIG_DIR.glob("gmail_*_token.json"):
         label = token_file.stem.replace("gmail_", "").replace("_token", "")
@@ -185,14 +207,21 @@ def _load_tokens(cfg) -> dict:
         except Exception:
             pass
 
-    for service in ("gcalendar", "gtasks"):
-        token_file = DEFAULT_CONFIG_DIR / f"{service}_token.json"
-        if token_file.exists():
-            try:
-                data = json.loads(token_file.read_text())
-                tokens[service] = data.get("token", "")
-            except Exception:
-                pass
+    for token_file in DEFAULT_CONFIG_DIR.glob("gcalendar_*_token.json"):
+        label = token_file.stem.replace("gcalendar_", "").replace("_token", "")
+        try:
+            data = json.loads(token_file.read_text())
+            tokens["gcalendar"][label] = data.get("token", "")
+        except Exception:
+            pass
+
+    for token_file in DEFAULT_CONFIG_DIR.glob("gtasks_*_token.json"):
+        label = token_file.stem.replace("gtasks_", "").replace("_token", "")
+        try:
+            data = json.loads(token_file.read_text())
+            tokens["gtasks"][label] = data.get("token", "")
+        except Exception:
+            pass
 
     return tokens
 

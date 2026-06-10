@@ -27,8 +27,8 @@ def _make_agent(tmp_path: Path, engine_response: str = "Here is your answer.") -
         cloud_engine=cloud_engine,
         cloud_model="claude-3-5-sonnet-20241022",
         gmail_tokens={"primary": "fake-gmail-token"},
-        calendar_token="fake-cal-token",
-        tasks_token="fake-tasks-token",
+        calendar_tokens={},
+        tasks_tokens={},
     )
     return agent, local_engine, cloud_engine
 

@@ -33,8 +33,8 @@ class VoiceAgent:
         cloud_engine,
         cloud_model: str,
         gmail_tokens: dict[str, str],   # label → OAuth token
-        calendar_token: str,
-        tasks_token: str,
+        calendar_tokens: dict[str, str],
+        tasks_tokens: dict[str, str],
         confirmation_timeout_s: float = 15.0,
     ) -> None:
         self._memory = memory
@@ -43,8 +43,8 @@ class VoiceAgent:
         self._cloud_engine = cloud_engine
         self._cloud_model = cloud_model
         self._gmail_tokens = gmail_tokens
-        self._calendar_token = calendar_token
-        self._tasks_token = tasks_token
+        self._calendar_tokens = calendar_tokens
+        self._tasks_tokens = tasks_tokens
         self._confirmation_timeout_s = confirmation_timeout_s
 
     def respond(
@@ -109,32 +109,34 @@ class VoiceAgent:
         """Execute a confirmed tool action and return a spoken result."""
         from openjarvis.voice.tools import email_tools, calendar_tools, tasks_tools
 
-        primary_token = next(iter(self._gmail_tokens.values()), "")
+        primary_gmail = next(iter(self._gmail_tokens.values()), "")
+        primary_calendar = next(iter(self._calendar_tokens.values()), "")
+        primary_tasks = next(iter(self._tasks_tokens.values()), "")
 
         dispatch = {
             "list_emails": lambda: "\n".join(
-                email_tools.list_emails(primary_token, **args)
+                email_tools.list_emails(primary_gmail, **args)
             ),
             "send_email": lambda: (
-                email_tools.send_email(primary_token, **args),
+                email_tools.send_email(primary_gmail, **args),
                 "Email sent."
             )[-1],
             "list_events": lambda: "\n".join(
-                calendar_tools.list_events(self._calendar_token, **args)
+                calendar_tools.list_events(primary_calendar, **args)
             ),
             "create_calendar_event": lambda: (
-                calendar_tools.create_event(self._calendar_token, **args),
+                calendar_tools.create_event(primary_calendar, **args),
                 "Event created."
             )[-1],
             "list_tasks": lambda: "\n".join(
-                tasks_tools.list_tasks(self._tasks_token)
+                tasks_tools.list_tasks(primary_tasks)
             ),
             "add_task": lambda: (
-                tasks_tools.add_task(self._tasks_token, **args),
+                tasks_tools.add_task(primary_tasks, **args),
                 "Task added."
             )[-1],
             "complete_task": lambda: (
-                tasks_tools.complete_task(self._tasks_token, **args),
+                tasks_tools.complete_task(primary_tasks, **args),
                 "Task marked complete."
             )[-1],
         }

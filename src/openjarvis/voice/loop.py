@@ -30,8 +30,8 @@ class VoiceLoop:
         cloud_engine,
         cloud_model: str,
         gmail_tokens: dict[str, str],
-        calendar_token: str,
-        tasks_token: str,
+        calendar_tokens: dict[str, str],
+        tasks_tokens: dict[str, str],
         memory_path: Optional[Path] = None,
         silence_duration_s: float = 1.5,
         confirmation_timeout_s: float = 15.0,
@@ -52,8 +52,8 @@ class VoiceLoop:
             cloud_engine=cloud_engine,
             cloud_model=cloud_model,
             gmail_tokens=gmail_tokens,
-            calendar_token=calendar_token,
-            tasks_token=tasks_token,
+            calendar_tokens=calendar_tokens,
+            tasks_tokens=tasks_tokens,
             confirmation_timeout_s=confirmation_timeout_s,
         )
         self._detector = WakeWordDetector(
