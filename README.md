@@ -39,17 +39,28 @@ OpenJarvis is that stack. It is a framework for local-first personal AI, built a
 
 ## Installation
 
-Pick your platform and run one command. Each installer handles [uv](https://docs.astral.sh/uv/), the Python venv, Ollama, and a starter model — about 3 minutes on broadband.
+### From source (recommended for development)
 
-| Platform | One-liner |
-|---|---|
-| **macOS · Linux · WSL2** | `curl -fsSL https://godzilla74.github.io/OpenJarvis/install.sh \| bash` |
-| **Native Windows** | `irm https://godzilla74.github.io/OpenJarvis/install.ps1 \| iex` |
-| **Desktop GUI** | Download `.exe` / `.dmg` / `.deb` / `.rpm` / `.AppImage` from the [latest release](https://github.com/godzilla74/OpenJarvis/releases) |
+Requires [uv](https://docs.astral.sh/uv/) and [Ollama](https://ollama.com/) installed first.
 
-Then `jarvis` to start. The Rust extension and larger models continue downloading in the background; `jarvis doctor` shows status.
+```bash
+git clone https://github.com/godzilla74/OpenJarvis.git
+cd OpenJarvis
+uv sync
+uv run jarvis
+```
 
-Platform-specific notes (WSL2 setup, native-Windows scheduled-task service, desktop prerequisites, manual / contributor install): see the [installation docs](https://godzilla74.github.io/OpenJarvis/getting-started/install/).
+Pull a starter model if you haven't already:
+
+```bash
+ollama pull qwen2.5:3b
+```
+
+`jarvis doctor` shows the status of all dependencies.
+
+### Desktop GUI
+
+Download `.exe` / `.dmg` / `.deb` / `.rpm` / `.AppImage` from the [latest release](https://github.com/godzilla74/OpenJarvis/releases).
 
 ## Quick Start
 
