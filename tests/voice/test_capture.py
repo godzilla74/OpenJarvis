@@ -21,3 +21,9 @@ def test_merge_chunks_produces_flat_array():
     result = merge_chunks([a, b])
     assert result.shape == (4,)
     np.testing.assert_allclose(result, [0.1, 0.2, 0.3, 0.4])
+
+
+def test_merge_chunks_empty_list():
+    result = merge_chunks([])
+    assert result.shape == (0,)
+    assert result.dtype == np.float32

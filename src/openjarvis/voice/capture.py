@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import queue
-import threading
 from typing import Optional
 
 import numpy as np
@@ -38,6 +37,8 @@ def detect_silence(chunk: np.ndarray, *, threshold: float = 0.01) -> bool:
 
 def merge_chunks(chunks: list[np.ndarray]) -> np.ndarray:
     """Concatenate a list of 1-D float32 arrays into one."""
+    if not chunks:
+        return np.array([], dtype=np.float32)
     return np.concatenate(chunks).astype(np.float32)
 
 
@@ -56,7 +57,6 @@ def record_utterance(
     max_blocks = int(max_duration_s * SAMPLE_RATE / BLOCK_SIZE)
 
     audio_queue: queue.Queue[np.ndarray] = queue.Queue()
-    stop_event = threading.Event()
 
     def _callback(indata: np.ndarray, frames: int, time_info, status) -> None:
         audio_queue.put(indata[:, 0].copy())
@@ -72,7 +72,7 @@ def record_utterance(
         device=device,
         callback=_callback,
     ):
-        while not stop_event.is_set():
+        while True:
             chunk = audio_queue.get()
             chunks.append(chunk)
             if detect_silence(chunk, threshold=silence_threshold):
