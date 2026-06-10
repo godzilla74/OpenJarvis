@@ -17,7 +17,7 @@ An always-on voice assistant that runs on a dedicated Mac Mini (Apple Silicon). 
 [Logitech USB Mic]
         │
         ▼
-Wake Word Detection (openwakeword, local, ~1% CPU)
+Wake Word Detection (Porcupine, local, ~1% CPU)
         │  "Hey Jarvis" detected
         ▼
 Audio Capture (sounddevice, silence detection)
@@ -51,7 +51,7 @@ TTS — Kokoro local (primary) → OpenAI TTS (fallback for long responses)
 
 | File | Responsibility |
 |---|---|
-| `wake_word.py` | openwakeword listener; fires callback on "Hey Jarvis"; runs continuously at ~1% CPU |
+| `wake_word.py` | Porcupine listener; fires callback on "Hey Jarvis"; runs continuously at ~1% CPU |
 | `capture.py` | Records from USB mic via `sounddevice`; ends utterance on 1.5s silence; plays chime on wake |
 | `loop.py` | Main orchestrator: wake → capture → STT → agent → confirmation → TTS → loop |
 | `confirmation.py` | Classifies action type; applies brief or detailed confirmation logic |
@@ -131,7 +131,7 @@ Routing is automatic based on a lightweight complexity classifier built into `ro
 
 ## Voice Pipeline Details
 
-**Wake word:** Two options — Picovoice Porcupine (free tier, has "Jarvis" as a built-in keyword, no training needed) or `openwakeword` (fully open source, requires ~30 minutes of custom voice recordings to train a "Hey Jarvis" model). Porcupine recommended for zero-setup; openwakeword if fully open source is a priority. Both run entirely locally, no cloud calls.
+**Wake word:** Picovoice Porcupine (free tier). Has "Jarvis" as a built-in keyword — zero training needed. Runs entirely on-device; API key required for initialization only, no network calls during operation.
 
 **STT:** Faster-Whisper `large-v3` — already in codebase. Runs on Apple Silicon via Core ML. Target transcription latency: ~1–2s for a typical utterance.
 
@@ -147,7 +147,7 @@ Routing is automatic based on a lightweight complexity classifier built into `ro
 
 | Package | Purpose |
 |---|---|
-| `openwakeword` | Wake word detection |
+| `pvporcupine` | Wake word detection (Picovoice Porcupine) |
 | `sounddevice` | Audio capture from USB mic |
 | `numpy` | Audio buffer handling (likely already present) |
 
