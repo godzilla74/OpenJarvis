@@ -1524,12 +1524,16 @@ class DigestConfig:
 
 @dataclass(slots=True)
 class VoiceAccountConfig:
+    """Voice account configuration."""
+
     credentials_path: str = ""
     label: str = ""  # e.g. "work email", "personal email"
 
 
 @dataclass(slots=True)
 class VoiceAssistantConfig:
+    """Voice assistant configuration."""
+
     wake_word_model: str = ""  # path to .onnx model, empty = not trained yet
     stt_model: str = "large-v3"
     tts_backend: str = "kokoro"
@@ -1540,7 +1544,7 @@ class VoiceAssistantConfig:
     cloud_model: str = "claude-sonnet-4-6"
     local_model: str = "qwen2.5:14b"
     memory_path: str = ""  # empty = ~/.openjarvis/voice_memory.json
-    gmail_accounts: list = field(default_factory=list)
+    gmail_accounts: List[VoiceAccountConfig] = field(default_factory=list)
 
 
 @dataclass
