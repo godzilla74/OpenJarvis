@@ -11,7 +11,7 @@ import sounddevice as sd
 
 from openjarvis.voice.capture import BLOCK_SIZE, SAMPLE_RATE
 
-_DETECTION_THRESHOLD = 0.5
+_DETECTION_THRESHOLD = 0.3
 
 
 def _find_model(model_path: Optional[Path] = None) -> Path:
@@ -21,12 +21,16 @@ def _find_model(model_path: Optional[Path] = None) -> Path:
     custom = Path.home() / ".openjarvis" / "models" / "hey_jarvis.onnx"
     if custom.exists():
         return custom
-    # Fall back to the pre-built model bundled with openwakeword
+    # Fall back to the pre-built model bundled with openwakeword — prefer .onnx
     try:
         import openwakeword as oww
-        for p in oww.get_pretrained_model_paths():
-            if "hey_jarvis" in p:
-                return Path(p)
+        candidates = [Path(p) for p in oww.get_pretrained_model_paths() if "hey_jarvis" in p]
+        onnx = next((p for p in candidates if p.suffix == ".onnx" and p.exists()), None)
+        tflite = next((p for p in candidates if p.suffix == ".tflite" and p.exists()), None)
+        if onnx:
+            return onnx
+        if tflite:
+            return tflite
     except Exception:
         pass
     return custom  # let caller fail with a clear missing-file error
