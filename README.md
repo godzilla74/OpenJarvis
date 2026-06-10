@@ -39,24 +39,29 @@ OpenJarvis is that stack. It is a framework for local-first personal AI, built a
 
 ## Installation
 
-### From source (recommended for development)
+### One-line install (macOS / Linux / WSL2)
 
-Requires [uv](https://docs.astral.sh/uv/) and [Ollama](https://ollama.com/) installed first.
+Handles everything — uv, Ollama, model download, PATH setup:
+
+```bash
+git clone https://github.com/godzilla74/OpenJarvis.git
+cd OpenJarvis
+bash scripts/install/install.sh
+```
+
+`jarvis doctor` shows the status of all dependencies after install.
+
+### From source (development)
+
+If you prefer a manual dev setup (requires [uv](https://docs.astral.sh/uv/) and [Ollama](https://ollama.com/) already installed):
 
 ```bash
 git clone https://github.com/godzilla74/OpenJarvis.git
 cd OpenJarvis
 uv sync
+ollama pull qwen2.5:3b
 uv run jarvis
 ```
-
-Pull a starter model if you haven't already:
-
-```bash
-ollama pull qwen2.5:3b
-```
-
-`jarvis doctor` shows the status of all dependencies.
 
 ### Desktop GUI
 
