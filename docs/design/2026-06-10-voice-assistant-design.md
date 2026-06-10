@@ -17,7 +17,7 @@ An always-on voice assistant that runs on a dedicated Mac Mini (Apple Silicon). 
 [Logitech USB Mic]
         │
         ▼
-Wake Word Detection (Porcupine, local, ~1% CPU)
+Wake Word Detection (openwakeword, local, ~1% CPU)
         │  "Hey Jarvis" detected
         ▼
 Audio Capture (sounddevice, silence detection)
@@ -51,7 +51,7 @@ TTS — Kokoro local (primary) → OpenAI TTS (fallback for long responses)
 
 | File | Responsibility |
 |---|---|
-| `wake_word.py` | Porcupine listener; fires callback on "Hey Jarvis"; runs continuously at ~1% CPU |
+| `wake_word.py` | openwakeword listener; fires callback on "Hey Jarvis"; runs continuously at ~1% CPU |
 | `capture.py` | Records from USB mic via `sounddevice`; ends utterance on 1.5s silence; plays chime on wake |
 | `loop.py` | Main orchestrator: wake → capture → STT → agent → confirmation → TTS → loop |
 | `confirmation.py` | Classifies action type; applies brief or detailed confirmation logic |
@@ -131,7 +131,7 @@ Routing is automatic based on a lightweight complexity classifier built into `ro
 
 ## Voice Pipeline Details
 
-**Wake word:** Picovoice Porcupine (free tier). Has "Jarvis" as a built-in keyword — zero training needed. Runs entirely on-device; API key required for initialization only, no network calls during operation.
+**Wake word:** `openwakeword` (Apache 2.0, fully open source, no account required). Custom "Hey Jarvis" model trained using synthetically generated audio — Mac's built-in `say` command generates hundreds of samples automatically, training takes ~20 minutes and runs once. Detection runs entirely on-device at ~1% CPU, no network calls ever.
 
 **STT:** Faster-Whisper `large-v3` — already in codebase. Runs on Apple Silicon via Core ML. Target transcription latency: ~1–2s for a typical utterance.
 
@@ -147,7 +147,7 @@ Routing is automatic based on a lightweight complexity classifier built into `ro
 
 | Package | Purpose |
 |---|---|
-| `pvporcupine` | Wake word detection (Picovoice Porcupine) |
+| `openwakeword` | Wake word detection |
 | `sounddevice` | Audio capture from USB mic |
 | `numpy` | Audio buffer handling (likely already present) |
 
@@ -161,7 +161,6 @@ MLX and Faster-Whisper are already optional extras in `pyproject.toml`.
 - Smart home / computer control
 - Proactive interruptions (Jarvis speaking unprompted)
 - Multi-user voice profiles
-- Custom wake word training
 
 ---
 
