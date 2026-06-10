@@ -129,6 +129,8 @@ voice = [
     "sounddevice>=0.4.6",
     "numpy>=1.24",
     "soundfile>=0.12",
+    "kokoro>=0.7.0",
+    "torch>=2.0",
     "google-auth-oauthlib>=1.0",
     "google-auth-httplib2>=0.2",
 ]
