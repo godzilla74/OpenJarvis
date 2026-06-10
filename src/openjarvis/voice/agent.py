@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import logging
-from typing import Optional
 
 from openjarvis.voice.confirmation import ActionType, classify_action, format_confirmation
 from openjarvis.voice.memory import VoiceMemory
